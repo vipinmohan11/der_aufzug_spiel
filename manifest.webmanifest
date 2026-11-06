@@ -1,0 +1,1 @@
+{"id": "./", "name": "Der Aufzug", "short_name": "Aufzug", "lang": "de", "start_url": "./", "scope": "./", "display": "standalone", "orientation": "landscape", "background_color": "#ffffff", "theme_color": "#f2d77d", "icons": [{"src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}]}
