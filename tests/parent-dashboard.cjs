@@ -18,17 +18,27 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
   for(const id of ['scarf','bowl'])await page.locator('[data-shop-item='+id+']').click();
   assert.equal(await page.locator('[data-room-item]').count(),2);
   assert.equal(await page.evaluate(()=>state.coins),20);
+  const catalogs=await page.evaluate(()=>Object.values(ROOMS).flatMap(room=>room.items));
+  assert.equal(catalogs.length,24);
+  assert.equal(new Set(catalogs).size,24,'Every character has its own six items');
+  await page.evaluate(()=>{buyRoomItem('pony','scarf');placeExistingItem('pony','scarf')});
+  assert.equal(await page.evaluate(()=>state.coins),20);
+  assert.equal(await page.evaluate(()=>state.roomAssignments.scarf),'penguin');
   for(const room of ['mouse','rabbit','pony']){
    await page.evaluate(room=>chooseRoom(room),room);
    assert.equal(await page.locator('.room-shop [data-ownership=available]').count(),6);
    assert.equal(await page.locator('[data-room-item]').count(),0);
   }
   await page.evaluate(()=>chooseRoom('mouse'));
-  await page.locator('[data-shop-item=plant]').click();
+  await page.locator('[data-shop-item=worklamp]').click();
   assert.equal(await page.evaluate(()=>state.coins),0);
   await page.evaluate(()=>chooseRoom('penguin'));
   assert.equal(await page.locator('[data-room-item]').count(),2);
   assert.equal(await page.locator('[data-room-item=scarf] .owned-label').innerText(),'✓ In diesem Zuhause');
+  await page.evaluate(()=>{state.owned.push('room:pony:scarf');chooseRoom('pony')});
+  assert.equal(await page.locator('[data-room-item=scarf]').count(),1);
+  assert.equal(await page.locator('[data-shop-item=scarf]').count(),0);
+  await page.evaluate(()=>chooseRoom('penguin'));
   await page.screenshot({path:path.join(__dirname,'../../purchase-status.png'),fullPage:true});
   await page.evaluate(()=>{parentOpen=true;route='parent';tab='report';render()});
   assert.equal(await page.locator('footer').isVisible(),true);
@@ -51,7 +61,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
   assert.equal(await page.locator('.objective-stack').count(),1);
   assert.equal(await page.locator('.objective-stack').getAttribute('aria-label'),await page.evaluate(()=>{const ts=tasks.filter(t=>objective(t));const n=ts.filter((t)=>state.records[t.id].firstCorrect).length;return n+' erste Lösungen passten, '+(ts.length-n)+' passten noch nicht'}));
   assert.equal(await page.locator('.purchase-audit').getByText('Schal, Futterschale',{exact:true}).count(),1);
-  assert.equal(await page.locator('.purchase-audit').getByText('Zimmerpflanze',{exact:true}).count(),1);
+  assert.equal(await page.locator('.purchase-audit').getByText('Werkbanklampe',{exact:true}).count(),1);
   await page.screenshot({path:path.join(__dirname,'../../parent-dashboard.png'),fullPage:true});
   for(const width of [320,390,768]){
    await page.setViewportSize({width,height:844});

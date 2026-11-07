@@ -52,22 +52,22 @@ for(const t of afterTasks){
   assert.equal(await page.locator('[data-room-item]').count(),0);
   assert.equal(await page.locator('.legacy-item').count(),4);
   assert.equal(await page.evaluate(()=>state.coins),123);
-  const assignments=[['penguin','scarf'],['mouse','bowl'],['rabbit','plant'],['pony','lamp']];
+  const assignments=[['penguin','scarf'],['penguin','bowl'],['rabbit','plant'],['pony','lamp']];
   for(const [room,id] of assignments){
     await page.evaluate(room=>chooseRoom(room),room);
-    assert.equal(await page.locator('[data-room-item]').count(),0);
+    assert.equal(await page.locator('[data-room-item]').count(),room==='penguin'&&id==='bowl'?1:0);
     assert.equal(await page.locator('#character-room .scene-art').getAttribute('src'),await page.evaluate(room=>ASSETS[room],room));
     await page.evaluate(([room,id])=>placeExistingItem(room,id),[room,id]);
     assert.equal(await page.locator('[data-room-item='+id+']').count(),1);
     assert.equal(await page.evaluate(()=>state.coins),123);
   }
   await page.evaluate(()=>chooseRoom('mouse'));
-  assert.equal(await page.locator('[data-room-item=bowl]').count(),1);
-  assert.equal(await page.locator('[data-room-item=plant]').count(),0);
-  await page.getByRole('button',{name:'Zimmerpflanze 20 Münzen · kaufen',exact:true}).click();
-  assert.equal(await page.locator('[data-room-item=plant]').count(),1);
+  assert.equal(await page.locator('[data-room-item=bowl]').count(),0);
+  assert.equal(await page.locator('[data-room-item=worklamp]').count(),0);
+  await page.getByRole('button',{name:'Werkbanklampe 20 Münzen · kaufen',exact:true}).click();
+  assert.equal(await page.locator('[data-room-item=worklamp]').count(),1);
   assert.equal(await page.evaluate(()=>state.coins),103);
-  await page.evaluate(()=>buyRoomItem('mouse','plant'));
+  await page.evaluate(()=>buyRoomItem('mouse','worklamp'));
   assert.equal(await page.evaluate(()=>state.coins),103);
   await page.getByRole('button',{name:'Zahnradmodell 25 Münzen · kaufen',exact:true}).click();
   assert.equal(await page.evaluate(()=>state.coins),78);
@@ -75,7 +75,7 @@ for(const t of afterTasks){
   assert.equal(await page.evaluate(()=>state.coins),78);
   await page.reload();
   await page.getByRole('button',{name:'Reisezimmer',exact:true}).click();
-  assert.equal(await page.locator('[data-room-item]').count(),3);
+  assert.equal(await page.locator('[data-room-item]').count(),2);
   assert.equal(await page.evaluate(()=>state.coins),78);
   for(const id of ['scarf','bowl','plant','lamp','gold','blue'])assert.equal(await page.evaluate(id=>state.owned.includes(id),id),true);
   assert.equal(await page.evaluate(()=>rec('A2').draft),'Mein Bild bleibt');
@@ -92,7 +92,7 @@ for(const t of afterTasks){
     await freshPage.evaluate(room=>{route='room';chooseRoom(room)},room);
     assert.equal(await freshPage.locator('[data-room-item]').count(),0);
     assert.equal(await freshPage.locator('.legacy-item').count(),0);
-    await freshPage.evaluate(room=>buyRoomItem(room,'plant'),room);
+    await freshPage.evaluate(room=>buyRoomItem(room,ROOMS[room].items[0]),room);
     assert.equal(await freshPage.evaluate(()=>state.coins),0);
     assert.deepEqual(await freshPage.evaluate(()=>state.owned),['gold']);
   }

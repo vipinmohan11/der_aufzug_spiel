@@ -2,7 +2,7 @@
 
 A German-language adventure game with illustrated destinations, puzzles, creative activities and collectible customisations.
 
-**Comic spread · 1.2**
+**Comic spread · 1.3**
 
 72 activities available immediately, including writing, drawing, an assisted portrait, planning, choices and logic challenges. Progress is saved on the device. No accounts, analytics or cloud synchronisation.
 
@@ -66,3 +66,14 @@ The parent overview uses separate charts for completion, optional feedback, offe
 Child screens hide the footer, storage notice and test-mode label. Technical information and the version are shown in the parent area.
 
 The dashboard regression test reproduces two earlier purchases placed in the penguin room, verifies independent stock in the other rooms, checks empty and completed report states, and confirms that rendering reports does not mutate the save.
+
+## Version 1.3 — character-specific shops
+
+Each character has six distinct shop items.
+
+- Penguin — scarf, feeding bowl, station clock, ticket rack, conductor cap and ticket stamp.
+- Mouse — toolbox, gear model, workbench lamp, parts box, ruler and protective goggles.
+- Rabbit — storybooks, reading cushion, book lamp, bookmark, coloured pencils and story box.
+- Pony — star map, telescope, hay basket, grooming brush, saddle blanket and compass.
+
+New purchases and free placement of earlier accessories are restricted to suitable characters. Earlier generic plants and lamps can still be placed as room furnishings. Every recorded purchase is preserved and displayed, including items previously bought from a character's older catalogue. Rendering a room does not migrate, exchange or grant items.
