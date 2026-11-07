@@ -2,7 +2,7 @@
 
 A German-language adventure game with illustrated destinations, puzzles, creative activities and collectible customisations.
 
-**Early playable build · 0.6**
+**Comic spread · 0.9**
 
 48 activities across four calendar weeks, including writing, drawing, an assisted portrait, planning, choices and logic challenges. Progress is saved on the device. No accounts, analytics or cloud synchronisation.
 
@@ -10,11 +10,11 @@ A German-language adventure game with illustrated destinations, puzzles, creativ
 
 Open the GitHub Pages address in Chrome while online. Wait for the first load, then choose **Add to Home screen / Install app**. Open it once while online, then check that it starts in airplane mode.
 
-`index.html` contains the app, illustrations, font, styles and scripts. Keep `sw.js`, `manifest.webmanifest`, `icon.svg` and `OFL.txt` alongside it. A separate service-worker file is required by browsers for offline operation.
+`index.html` contains the app, illustrations, font, styles and scripts. Keep `sw.js`, `manifest.webmanifest`, `icon.svg` and the font licenses alongside it. A separate service-worker file is required by browsers for offline operation.
 
 ## Parent controls and backups
 
-Open **Eltern**, create a PIN of 6–12 digits and safely record the recovery code. The PIN prevents casual access; it does not encrypt local browser data. Export a backup before real play and regularly thereafter. Exported backups contain private answers and creations. Never upload them to this repository.
+Open **Eltern**, create a four-digit PIN and safely record the recovery code. The PIN prevents casual access; it does not encrypt local browser data. Export a backup before real play and regularly thereafter. Exported backups contain private answers and creations. Never upload them to this repository.
 
 The parent overview describes game choices and feedback. It is exploratory, not a validated diagnostic test.
 
@@ -26,20 +26,19 @@ Export a backup first. Publish replacement app files at the same address, close 
 
 Append `?admin=1` to the game address. This uses separate localStorage and IndexedDB data, with its own parent PIN. Test settings can unlock all weeks. Do not use real player backups as test fixtures.
 
-## Release status
+## Version 0.9 — responsive comic spread
 
-Core logic checks and selected browser checks passed. Full automated Chromium, backup/restore UI, real Android installation and offline/update checks are still pending. Review these before relying on the parent reports.
+The lobby shows each available door beside a shared illustrated preview. Choose a card to preview its destination, then use **Tür öffnen** to take the ride. Only starting a ride records an offer choice. On phones the cards and ride button sit below the preview.
 
-## Privacy
+Activity instructions, answer controls and feedback share a scrolling view. Writing activities show all three building blocks together. Existing saves, PINs, drawings and backups use the same storage format as version 0.8.
 
-Answers and creations remain on the device. The app requests persistent storage, keeps rolling snapshots, and provides file backups. Hosting providers receive ordinary app-file requests. As this repository and hosted app are public, the source logic is inspectable.
+## Browser checks
 
-## Version 0.8 — tablet pages
+Install Playwright and Chromium, then run:
 
-The app uses viewport pages with Back/Next controls instead of vertical scrolling. Illustrations use their full image bounds without CSS enlargement or cropping. Navigation and touch targets are larger; colour selectors are fixed circles.
+```sh
+node tests/tablet-layout.cjs
+node tests/parent-security.cjs
+```
 
-New parent PINs use exactly four digits. Existing longer PINs continue to work; change them in Eltern → Einstellungen. Reset is available only in the authenticated parent settings and requires the current PIN again. It preserves the parent PIN/recovery code and saves the previous game state before resetting. The pre-reset state can be restored there. Reset affects only the currently selected child, admin, or parent-playthrough save.
-
-Chromium checks covered all 48 activities (intro, working and submitted states), the main screens and parent tabs at 1024×600, 1280×800 and 1366×768 CSS pixels. No viewport overflow was detected. Security checks cover wrong reset PINs, child-route guards, reset/restore and legacy PIN changes. Real tablet verification remains necessary.
-
-To repeat the checks: install Playwright and its Chromium browser, then run `node tests/tablet-layout.cjs` and `node tests/parent-security.cjs`. Set `TEST_BROWSER_EXECUTABLE` if using an existing Chromium binary.
+Set `TEST_BROWSER_EXECUTABLE` to use an installed Chromium browser. The layout suite checks phone and tablet widths, all 48 activities, keyboard selection, saved drafts, mobile ride entry and offline reloading. The parent suite covers PIN setup, wrong-PIN rejection, reset, recovery and legacy PIN changes.
