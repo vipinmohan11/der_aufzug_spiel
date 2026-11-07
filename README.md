@@ -2,7 +2,7 @@
 
 A German-language adventure game with illustrated destinations, puzzles, creative activities and collectible customisations.
 
-**Comic spread · 1.3**
+**Comic spread · 1.4**
 
 72 activities available immediately, including writing, drawing, an assisted portrait, planning, choices and logic challenges. Progress is saved on the device. No accounts, analytics or cloud synchronisation.
 
@@ -53,6 +53,7 @@ node tests/tablet-layout.cjs
 node tests/parent-security.cjs
 node tests/rewards-upgrade.cjs
 node tests/parent-dashboard.cjs
+node tests/interactive-items.cjs
 ```
 
 Set `TEST_BROWSER_EXECUTABLE` to use an installed Chromium browser. The layout suite checks phone and tablet widths, all 72 activities, keyboard selection, saved drafts, mobile ride entry and offline reloading. The parent suite covers PIN setup, wrong-PIN rejection, reset, recovery and legacy PIN changes.
@@ -77,3 +78,13 @@ Each character has six distinct shop items.
 - Pony — star map, telescope, hay basket, grooming brush, saddle blanket and compass.
 
 New purchases and free placement of earlier accessories are restricted to suitable characters. Earlier generic plants and lamps can still be placed as room furnishings. Every recorded purchase is preserved and displayed, including items previously bought from a character's older catalogue. Rendering a room does not migrate, exchange or grant items.
+
+## Version 1.4 — usable room items
+
+Owned items have contextual actions in German. The room scene shows clothing on each character, placed furnishings, moving clock hands, filled ticket racks, stamped tickets, opening containers, turning gears, switched lamps, measured model objects, books, a bookmark, a drawing canvas, stories, telescope views, a star map, feeding, grooming and a moving compass needle.
+
+Ownership remains in the existing ownership list. Optional `roomUses[character][item]` records retain placement, equipped state, open/on state, counters, pages and drawing strokes inside the existing child save. The optional `roomUseFocus` map restores the selected item for each character, including an open drawing or reading tool. New purchases do not automatically equip or place an item. Putting an item away keeps ownership and saved drawings. Previously purchased items immediately expose their actions; older unassigned purchases retain explicit free room assignment.
+
+Transparent character cutouts and a seated Rabbit pose preserve the original character designs while allowing equipment to appear and disappear. They are embedded in the HTML for offline use.
+
+The interactive-item suite verifies purchase, contextual action, visible world state and reload for all 24 current shop items. It also checks duplicate purchase protection, equipment removal, 44-pixel touch targets, per-character and child-save isolation, backup round trips, and painted drawing restoration during offline loading. Existing save-upgrade, layout, parent-dashboard and parent-security suites passed.

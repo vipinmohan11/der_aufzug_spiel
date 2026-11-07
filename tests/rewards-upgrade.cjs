@@ -56,7 +56,7 @@ for(const t of afterTasks){
   for(const [room,id] of assignments){
     await page.evaluate(room=>chooseRoom(room),room);
     assert.equal(await page.locator('[data-room-item]').count(),room==='penguin'&&id==='bowl'?1:0);
-    assert.equal(await page.locator('#character-room .scene-art').getAttribute('src'),await page.evaluate(room=>ASSETS[room],room));
+    assert.equal(await page.locator('#character-room .world-actor image').getAttribute('href'),await page.evaluate(room=>ACTORS[room],room));
     await page.evaluate(([room,id])=>placeExistingItem(room,id),[room,id]);
     assert.equal(await page.locator('[data-room-item='+id+']').count(),1);
     assert.equal(await page.evaluate(()=>state.coins),123);
