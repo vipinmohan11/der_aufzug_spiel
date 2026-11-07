@@ -64,12 +64,12 @@ for(const t of afterTasks){
   await page.evaluate(()=>chooseRoom('mouse'));
   assert.equal(await page.locator('[data-room-item=bowl]').count(),1);
   assert.equal(await page.locator('[data-room-item=plant]').count(),0);
-  await page.getByRole('button',{name:'Zimmerpflanze 20 Münzen',exact:true}).click();
+  await page.getByRole('button',{name:'Zimmerpflanze 20 Münzen · kaufen',exact:true}).click();
   assert.equal(await page.locator('[data-room-item=plant]').count(),1);
   assert.equal(await page.evaluate(()=>state.coins),103);
   await page.evaluate(()=>buyRoomItem('mouse','plant'));
   assert.equal(await page.evaluate(()=>state.coins),103);
-  await page.getByRole('button',{name:'Zahnradmodell 25 Münzen',exact:true}).click();
+  await page.getByRole('button',{name:'Zahnradmodell 25 Münzen · kaufen',exact:true}).click();
   assert.equal(await page.evaluate(()=>state.coins),78);
   await page.evaluate(()=>buyRoomItem('rabbit','gears'));
   assert.equal(await page.evaluate(()=>state.coins),78);

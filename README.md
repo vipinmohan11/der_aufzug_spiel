@@ -2,7 +2,7 @@
 
 A German-language adventure game with illustrated destinations, puzzles, creative activities and collectible customisations.
 
-**Comic spread · 1.1**
+**Comic spread · 1.2**
 
 72 activities available immediately, including writing, drawing, an assisted portrait, planning, choices and logic challenges. Progress is saved on the device. No accounts, analytics or cloud synchronisation.
 
@@ -34,7 +34,7 @@ All 72 activities are available from the first day. There is no weekly wait. The
 
 The penguin, mouse, rabbit and pony each have a separate home, using the same illustrations as the activities. Each room has its own purchases, including two items specific to that character. Rooms begin with no purchased furnishings.
 
-Earlier purchases remain in **Bereits gekauft**. The child chooses where each one goes using **Hier aufstellen · gratis**. The same earlier item can be moved to another room using **Hierher holen · gratis**. Buying another copy for a different room costs its displayed price.
+Earlier purchases have an enabled **Hier verwenden · schon bezahlt** action directly in the selected room shop. After placement, that item belongs to that room. Other rooms keep their independent shop options. Earlier items can be moved through **Frühere Käufe verwalten** without another charge.
 
 The original ownership list and all earlier save fields are retained. New purchases use room-specific ownership IDs. Optional `roomView` and `roomAssignments` fields record the selected home and explicit placement of earlier purchases. Merely visiting a room grants no items.
 
@@ -52,8 +52,17 @@ Install Playwright and Chromium, then run:
 node tests/tablet-layout.cjs
 node tests/parent-security.cjs
 node tests/rewards-upgrade.cjs
+node tests/parent-dashboard.cjs
 ```
 
 Set `TEST_BROWSER_EXECUTABLE` to use an installed Chromium browser. The layout suite checks phone and tablet widths, all 72 activities, keyboard selection, saved drafts, mobile ride entry and offline reloading. The parent suite covers PIN setup, wrong-PIN rejection, reset, recovery and legacy PIN changes.
 
 The reward upgrade suite uses a representative older save and checks field-by-field preservation, free assignment of prior purchases, separate room ownership, drawing data, PIN validity and access to later activities on day one. Set `UPGRADE_BASELINE_HTML` to a previous release HTML file to test loading that release before upgrading. The default uses the current runtime to load the same older-format fixture.
+
+## Version 1.2 — clear ownership and visual parent overview
+
+The parent overview uses separate charts for completion, optional feedback, offered-door choices and first submitted answers with checkable solutions. Each chart explains its counts. Full completion is explicitly described as completing the content. Recent completions and a saved-inventory audit are included. The previous experimental indices remain available in a collapsed detail view.
+
+Child screens hide the footer, storage notice and test-mode label. Technical information and the version are shown in the parent area.
+
+The dashboard regression test reproduces two earlier purchases placed in the penguin room, verifies independent stock in the other rooms, checks empty and completed report states, and confirms that rendering reports does not mutate the save.
