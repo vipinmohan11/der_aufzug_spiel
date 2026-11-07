@@ -93,7 +93,7 @@ async function main() {
         return failures;
       });
       assert.deepEqual(result,[],width+'px');
-      console.log(width+'px: all 48 activities, submitted states and navigation checked');
+      console.log(width+'px: all 72 activities, submitted states and navigation checked');
     }
     await page.evaluate(async()=>{state.active=null;route='home';await save();await navigator.serviceWorker.ready});
     await page.reload();
@@ -111,3 +111,4 @@ async function main() {
   }
 }
 main().catch(err=>{console.error(err);process.exitCode=1});
+
