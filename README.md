@@ -33,3 +33,13 @@ Core logic checks and selected browser checks passed. Full automated Chromium, b
 ## Privacy
 
 Answers and creations remain on the device. The app requests persistent storage, keeps rolling snapshots, and provides file backups. Hosting providers receive ordinary app-file requests. As this repository and hosted app are public, the source logic is inspectable.
+
+## Version 0.8 — tablet pages
+
+The app uses viewport pages with Back/Next controls instead of vertical scrolling. Illustrations use their full image bounds without CSS enlargement or cropping. Navigation and touch targets are larger; colour selectors are fixed circles.
+
+New parent PINs use exactly four digits. Existing longer PINs continue to work; change them in Eltern → Einstellungen. Reset is available only in the authenticated parent settings and requires the current PIN again. It preserves the parent PIN/recovery code and saves the previous game state before resetting. The pre-reset state can be restored there. Reset affects only the currently selected child, admin, or parent-playthrough save.
+
+Chromium checks covered all 48 activities (intro, working and submitted states), the main screens and parent tabs at 1024×600, 1280×800 and 1366×768 CSS pixels. No viewport overflow was detected. Security checks cover wrong reset PINs, child-route guards, reset/restore and legacy PIN changes. Real tablet verification remains necessary.
+
+To repeat the checks: install Playwright and its Chromium browser, then run `node tests/tablet-layout.cjs` and `node tests/parent-security.cjs`. Set `TEST_BROWSER_EXECUTABLE` if using an existing Chromium binary.
