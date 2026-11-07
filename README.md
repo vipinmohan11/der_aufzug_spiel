@@ -2,7 +2,7 @@
 
 A German-language adventure game with illustrated destinations, puzzles, creative activities and collectible customisations.
 
-**Early playable build · 0.4**
+**Early playable build · 0.5**
 
 48 activities across four calendar weeks, including writing, drawing, an assisted portrait, planning, choices and logic challenges. Progress is saved on the device. No accounts, analytics or cloud synchronisation.
 
