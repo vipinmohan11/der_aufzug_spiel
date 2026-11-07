@@ -2,7 +2,7 @@
 
 A German-language adventure game with illustrated destinations, puzzles, creative activities and collectible customisations.
 
-**Comic spread · 1.0**
+**Comic spread · 1.1**
 
 72 activities available immediately, including writing, drawing, an assisted portrait, planning, choices and logic challenges. Progress is saved on the device. No accounts, analytics or cloud synchronisation.
 
@@ -30,7 +30,13 @@ Append `?admin=1` to the game address. This uses separate localStorage and Index
 
 All 72 activities are available from the first day. There is no weekly wait. The 24 new activities add drawing, invention, stories, fair experiments, collaboration and planning. The original 48 activity IDs and prompts remain unchanged.
 
-The travel room draws each owned item directly from the existing purchase list. The pigeon wears the scarf, and the bowl, plant and lamp appear in the room. Previously purchased items appear automatically. Purchases retain their original prices.
+## Version 1.1 — four character homes
+
+The penguin, mouse, rabbit and pony each have a separate home, using the same illustrations as the activities. Each room has its own purchases, including two items specific to that character. Rooms begin with no purchased furnishings.
+
+Earlier purchases remain in **Bereits gekauft**. The child chooses where each one goes using **Hier aufstellen · gratis**. The same earlier item can be moved to another room using **Hierher holen · gratis**. Buying another copy for a different room costs its displayed price.
+
+The original ownership list and all earlier save fields are retained. New purchases use room-specific ownership IDs. Optional `roomView` and `roomAssignments` fields record the selected home and explicit placement of earlier purchases. Merely visiting a room grants no items.
 
 The save keys, schema and parent security format remain unchanged. The update retains completed activities, drafts, drawings, coins, stars, ownership, PINs and reports. Install the update at the same hosting address and in the same browser profile. Close older game tabs and reopen to activate the offline update. The parent settings also include **App aktualisieren**.
 
@@ -50,4 +56,4 @@ node tests/rewards-upgrade.cjs
 
 Set `TEST_BROWSER_EXECUTABLE` to use an installed Chromium browser. The layout suite checks phone and tablet widths, all 72 activities, keyboard selection, saved drafts, mobile ride entry and offline reloading. The parent suite covers PIN setup, wrong-PIN rejection, reset, recovery and legacy PIN changes.
 
-The reward upgrade suite uses a representative older save and checks field-by-field preservation, prior purchases, drawing data, PIN validity and access to later activities on day one. Set `UPGRADE_BASELINE_HTML` to a previous release HTML file to test loading that release before upgrading. The default uses the current runtime to load the same older-format fixture.
+The reward upgrade suite uses a representative older save and checks field-by-field preservation, free assignment of prior purchases, separate room ownership, drawing data, PIN validity and access to later activities on day one. Set `UPGRADE_BASELINE_HTML` to a previous release HTML file to test loading that release before upgrading. The default uses the current runtime to load the same older-format fixture.
