@@ -27,6 +27,7 @@ for(const t of afterTasks){
  const browser=await chromium.launch({executablePath:process.env.TEST_BROWSER_EXECUTABLE||undefined,args:['--no-sandbox']});
  try{
   const page=await browser.newPage({serviceWorkers:'block',viewport:{width:1280,height:900}});
+  page.setDefaultTimeout(10000);page.setDefaultNavigationTimeout(15000);
   await page.goto('http://127.0.0.1:'+server.address().port+'/?admin=1');
   await page.locator('.door-card').first().waitFor();
   await page.evaluate(async()=>{
@@ -101,5 +102,5 @@ for(const t of afterTasks){
   assert.equal(await page.locator('.door-card').count(),3);
   assert.equal(await page.evaluate(()=>offer().ids.every(id=>tasks.find(t=>t.id===id).w>0)),true);
   console.log('PASS: 48 original activities identical; 24 new activities; full legacy save retained; PIN valid; prior purchases assigned for free; separate room purchases; no free items; purchase once; phone layout; later activities available on day one.');
- }finally{await browser.close();await new Promise(r=>server.close(r))}
+ }finally{await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r))}
 })().catch(e=>{console.error(e);process.exitCode=1});

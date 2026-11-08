@@ -22,6 +22,8 @@ async function main() {
   try {
     const context = await browser.newContext({viewport:{width:1280,height:800}});
     const page = await context.newPage();
+    page.setDefaultTimeout(10000);
+    page.setDefaultNavigationTimeout(15000);
     const errors = [];
     page.on('pageerror', err => errors.push(err.message));
     await page.goto(url);
@@ -63,6 +65,7 @@ async function main() {
     assert.deepEqual(await page.evaluate(()=>[rec('C3').rating,state.coins,state.stars]),[2,10,1]);
 
     for (const width of [320,390,768,1024,1366]) {
+      console.log('Checking '+width+'px');
       await page.setViewportSize({width,height:width<500?844:768});
       const result=await page.evaluate(()=>{
         const failures=[];
@@ -107,6 +110,7 @@ async function main() {
     console.log('Preview, keyboard, phone start, stored draft, builder, reward, rating and offline reload passed.');
   } finally {
     await browser.close();
+    server.closeAllConnections();
     await new Promise(resolve=>server.close(resolve));
   }
 }
