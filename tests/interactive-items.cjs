@@ -3,9 +3,9 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),http=require('n
 (async()=>{
  const server=http.createServer((req,res)=>{
   const name=new URL(req.url,'http://localhost').pathname.slice(1)||'index.html';
-  const allowed=['index.html','sw.js','manifest.webmanifest','icon.svg'];
+  const allowed=['index.html','sw.js','manifest.webmanifest','icon.svg','art/greenhouse.png','art/rooftop-pond.png','art/observatory-bench.png','art/star-dome.png'];
   if(!allowed.includes(name)){res.writeHead(404).end();return}
-  res.setHeader('Content-Type',name.endsWith('.js')?'application/javascript':'text/html;charset=utf-8');
+  res.setHeader('Content-Type',name.endsWith('.png')?'image/png':name.endsWith('.js')?'application/javascript':'text/html;charset=utf-8');
   res.end(fs.readFileSync(path.join(__dirname,'..',name)));
  }).listen(0,'127.0.0.1');
  await new Promise(r=>server.once('listening',r));

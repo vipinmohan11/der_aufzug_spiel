@@ -1,0 +1,10 @@
+{
+  "name": "der-aufzug-chapters-local-review",
+  "private": true,
+  "scripts": {
+    "test:chapters": "node tests/chapters.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.65.0"
+  }
+}

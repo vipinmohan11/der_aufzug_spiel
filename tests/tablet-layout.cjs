@@ -8,11 +8,11 @@ async function main() {
   const root = path.join(__dirname, '..');
   const server = http.createServer((req, res) => {
     const name = new URL(req.url, 'http://localhost').pathname.slice(1) || 'index.html';
-    if (!['index.html', 'sw.js', 'icon.svg', 'manifest.webmanifest'].includes(name)) {
+    if (!['index.html', 'sw.js', 'icon.svg', 'manifest.webmanifest','art/greenhouse.png','art/rooftop-pond.png','art/observatory-bench.png','art/star-dome.png'].includes(name)) {
       res.writeHead(404).end();
       return;
     }
-    const types = {'.html':'text/html; charset=utf-8','.js':'application/javascript','.svg':'image/svg+xml','.webmanifest':'application/manifest+json'};
+    const types = {'.html':'text/html; charset=utf-8','.png':'image/png','.js':'application/javascript','.svg':'image/svg+xml','.webmanifest':'application/manifest+json'};
     res.setHeader('Content-Type', types[path.extname(name)]);
     fs.createReadStream(path.join(root, name)).pipe(res);
   }).listen(0, '127.0.0.1');
